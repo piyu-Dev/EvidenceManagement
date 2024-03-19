@@ -61,6 +61,10 @@ const ComplaintSchema = new mongoose.Schema({
     walletAdd:{
         type:String,
         require:true,
+    },
+    isResolved:{
+        type:Boolean,
+        deafult:false
     }
 });
 
