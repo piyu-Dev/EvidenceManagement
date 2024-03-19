@@ -2,15 +2,16 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom'
 
 import { Link } from 'react-router-dom';
-// import { useAuth } from './Store/auth';
+import { useAuth } from '../Store/auth';
+
 export default function Navbar() {
     // const navigate = useNavigate();
-    // const { address, isloggedin, user } = useAuth();
+    const { address, isloggedin } = useAuth();
     return (
         <>
             <nav className="navbar navbar-expand-lg" style={{ maxHeight: "50px" }}>
                 <div className="container-fluid" style={{ background: "rgba(255, 255, 255, 0.8)" }}>
-                    <a className="navbar-brand fs-4 fw-bolder text-primary" href="#">CComplain</a>
+                    <a className="navbar-brand fs-4 fw-bolder text-primary" href="#">BlockTrace</a>
                     <button className="navbar-toggler " style={{ "border": "2px solid black" }} type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon "></span>
                     </button>
