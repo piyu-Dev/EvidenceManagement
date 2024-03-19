@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 
 export const AuthContext = createContext();
 
@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem("USER");
     }
 
-    const userAuthentication = async () => {
+    const userAuthentication = useCallback(async () => {
         let response;
         try {
             response = await fetch(`http://localhost:8000/user`, {
@@ -54,7 +54,7 @@ export const AuthProvider = ({ children }) => {
         } catch (error) {
             console.error("Error during user authentication:", error);
         }
-    };
+    })
 
 
     useEffect(() => {
