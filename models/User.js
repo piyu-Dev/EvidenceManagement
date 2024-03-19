@@ -15,6 +15,10 @@ const userSchema = new Schema({
         type:String,
         unique:true,
         required:true,
+    },
+    isAdmin:{
+        type:Boolean,
+        default:false
     }
 });
 
