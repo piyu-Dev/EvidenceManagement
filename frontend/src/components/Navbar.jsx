@@ -1,58 +1,55 @@
 import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from './store/auth';
+import { useAuth } from '../Store/auth';
 
-export default function Navbar({ user }) {
-    const { isLoggedIn, LogoutUser } = useAuth();
-    const navigate = useNavigate();
 
-    const data = localStorage.getItem("USER");
-    const userData = JSON.parse(data);
+export default function Navbar() {
+  const { isLoggedIn, LogoutUser, address } = useAuth();
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        console.log(userData);
-    }, []);
+  const data = localStorage.getItem("USER");
+  const userData = JSON.parse(data);
 
-    return (
-        <>
-            <div className="nav-cont">
-                <nav style={{ maxWidth: "100%" }} className="navbar navbar-expand-lg">
-                    <div className="container-fluid">
-                        <Link className="navbar-brand fs-4 fw-bolder" style={{ color: "purple" }} to='/'>
-                            <h3 className='logo'>Logo</h3>
-                        </Link>
-                        <button className="navbar-toggler" style={{ "border": "2px solid black" }} type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <span className="navbar-toggler-icon "></span>
-                        </button>
-                        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul className="navbar-nav ms-auto mb-lg-0 fs-5 fw-normal">
-                                <li className="nav-item">
-                                    <Link className="nav-link active" aria-current="page" to='/'>Home</Link>
-                                </li>
-                                {userData && (
-                                    <></>
-                                )}
-                            </ul>
-                            <form className="d-flex fs-6 fw-medium ms-auto navbar-nav">
-                                {isLoggedIn ? (
-                                    <>
-                                        <div className="btn-txt-grp">
-                                            <p className='user-name'>{userData.fullname}</p>
-                                            <button className="btn btn-outline-danger ms-2 fw-semibold" type="button" style={{ maxHeight: "min-content" }} onClick={() => { LogoutUser(); navigate('/login') }}>Logout</button>
-                                        </div>
-                                    </>
-                                ) : (
-                                    <>
-                                        <button className="btn btn-outline-primary ms-2 fw-semibold" type="button" style={{ maxHeight: "min-content" }} onClick={() => { navigate('/login') }}>Login</button>
-                                        <button className="btn btn-outline-primary ms-2 fw-semibold" type="button" style={{ maxHeight: "min-content" }} onClick={() => { navigate('/register') }}>Register</button>
-                                    </>
-                                )}
-                            </form>
-                        </div>
+  return (
+    <>
+      <div className="nav-cont">
+        <nav style={{ maxWidth: "100%" }} className="navbar navbar-expand-lg">
+          <div className="container-fluid">
+            <Link className="navbar-brand fs-4 fw-bolder" style={{ color: "purple" }} to='/'>
+              <h3 className='logo'>BlockTrace</h3>
+            </Link>
+            <button className="navbar-toggler" style={{ "border": "2px solid black" }} type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span className="navbar-toggler-icon "></span>
+            </button>
+            <div className="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul className="navbar-nav ms-auto mb-lg-0 fs-5 fw-normal">
+                <li className="nav-item">
+                  <Link className="nav-link active" aria-current="page" to='/'>Home</Link>
+                </li>
+                {userData && (
+                  <></>
+                )}
+              </ul>
+              <form className="d-flex fs-6 fw-medium ms-auto navbar-nav">
+                {isLoggedIn ? (
+                  <>
+                    <div className="btn-txt-grp">
+                      {/* <p className='user-name'>{userData.fullname}</p> */}
+                      <button className="btn btn-outline-danger ms-2 fw-semibold" type="button" style={{ maxHeight: "min-content" }} onClick={() => { LogoutUser(); navigate('/login') }}>{address ? address.slice(0, 4) + "..." + address.slice(38) : ""}</button>
                     </div>
-                </nav>
+                  </>
+                ) : (
+                  <>
+                    <button className="btn btn-outline-primary ms-2 fw-semibold" type="button" style={{ maxHeight: "min-content" }} onClick={() => { navigate('/login') }}>Login</button>
+                    <button className="btn btn-outline-primary ms-2 fw-semibold" type="button" style={{ maxHeight: "min-content" }} onClick={() => { navigate('/register') }}>Register</button>
+                  </>
+                )}
+              </form>
             </div>
-            <style>{`
+          </div>
+        </nav>
+      </div>
+      <style>{`
                 * {
                   margin: 0;
                   padding: 0;
@@ -136,7 +133,7 @@ export default function Navbar({ user }) {
                   }
                 }
               `}
-            </style>
-        </>
-    );
+      </style>
+    </>
+  );
 }

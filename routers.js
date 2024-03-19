@@ -9,14 +9,14 @@ const crypto = require('crypto');
 
 
 router.post( '/login',async (req, res) => {
-    const { name, password } = req.body;
+    const { email, password } = req.body;
   
-    if (!name || !password) {
+    if (!email || !password) {
       return res.status(422).json({ error: "Please provide a valid username and password" });
     }
   
     try {
-      const user = await User.findOne({ name });
+      const user = await User.findOne({ email });
   
       if (!user) {
         return res.status(422).json({ error: "Invalid username or password" });
@@ -226,15 +226,17 @@ router.get('/complaints', async (req, res) => {
 });
 
 
-  router.get('/user', authmiddleware, (req, res) => {
+
+router.get('/user', authmiddleware(), (req, res) => {
     try {
-        const userData = req.User;
+        const userData = req.user; 
         console.log(userData);
-        res.status(200).json({ msg: userData })
+        res.status(200).json({ msg: userData });
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
-    })
+});
+
 
 
   module.exports = router;

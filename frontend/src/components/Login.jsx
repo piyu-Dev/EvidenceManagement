@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import Navbar from './Navbar'
-import { useAuth } from './store/auth'
+import { useAuth } from '../Store/auth';
+
 import { useNavigate, Link } from 'react-router-dom';
 
 export default function Login() {
-    const { storeTokenInLS, backend_api } = useAuth();
+    const { storeTokenInLS, connectWallet } = useAuth();
     const navigate = useNavigate();
     const [mail, setMail] = useState('');
     const [password, setPassword] = useState('');
+
+
+
+
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -16,7 +23,7 @@ export default function Login() {
         }
 
         try {
-            const response = await fetch(`${backend_api}/login`, {
+            const response = await fetch(`http://localhost:8000/login`, {
                 method: "post",
                 headers: {
                     "Content-Type": "application/json",
@@ -29,10 +36,11 @@ export default function Login() {
 
             if (response.status === 200) {
                 const res_data = await response.json();
+
                 storeTokenInLS(res_data.token);
-                localStorage.setItem("USER", JSON.stringify(res_data.user));
-                window.alert("Login Successful");
-                navigate('/');
+
+                connectWallet();
+                navigate('/setevidence');
             } else {
                 return alert("Invalid Credentials!!!");
             }

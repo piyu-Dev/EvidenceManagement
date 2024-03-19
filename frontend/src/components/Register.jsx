@@ -1,7 +1,8 @@
 import React, { useRef, useState } from 'react'
 import Navbar from './Navbar'
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from './store/auth';
+import { useAuth } from '../Store/auth';
+
 
 const Register = () => {
 
@@ -16,7 +17,7 @@ const Register = () => {
         setIcon(!iconState);
     };
 
-    const { storeTokenInLS, backend_api, token } = useAuth();
+    const { storeTokenInLS, token } = useAuth();
 
     const navigate = useNavigate();
     const [name, setName] = useState('');
@@ -29,7 +30,7 @@ const Register = () => {
 
 
         try {
-            const response = await fetch(`${backend_api}/register`, {
+            const response = await fetch(`http://localhost:8000/register`, {
                 method: "post",
                 headers: {
                     "Content-Type": "application/json",
@@ -47,7 +48,7 @@ const Register = () => {
                 const res_data = await response.json();
                 console.log("response from server ", res_data);
                 storeTokenInLS(res_data.token);
-                navigate('/students');
+                navigate('/login');
                 alert("Registration Successfull !!!");
             } else {
                 return console.log(response);
