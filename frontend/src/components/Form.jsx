@@ -3,7 +3,7 @@ import Navbar from './Navbar'
 import { useAuth } from './store/auth'
 import { useNavigate } from 'react-router-dom';
 
-export default function StudentRegister() {
+export default function Form() {
     const { backend_api, token } = useAuth();
 
     const navigate = useNavigate();
