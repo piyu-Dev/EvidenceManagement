@@ -7,6 +7,7 @@ const Complaint = require('./models/Complaint')
 const authmiddleware = require('./middleware/authmiddleware')
 const crypto = require('crypto');
 const authMiddleware = require('./middleware/authmiddleware');
+const { time } = require('console');
 
 
 router.post('/login', async (req, res) => {
@@ -223,6 +224,9 @@ router.get('/complaints', async (req, res) => {
         image: decrypt(complaint.image.encryptedData, complaint.image.iv, complaint.image.key),
         title: decrypt(complaint.title.encryptedData, complaint.title.iv, complaint.title.key),
         desc: decrypt(complaint.desc.encryptedData, complaint.desc.iv, complaint.desc.key),
+        time:complaint.time,
+        walletAdd: complaint.walletAdd,
+        isResolved: complaint.isResolved
       };
     });
 
