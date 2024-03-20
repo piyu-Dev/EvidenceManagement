@@ -7,18 +7,13 @@ import { useNavigate, Link } from 'react-router-dom';
 const Login = () => {
     const { storeTokenInLS, backend_api, connectWallet } = useAuth();
     const navigate = useNavigate();
-    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
-
-
-
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!password || !name) {
+        if (!password || !email) {
             return alert("All Fields are Required!!!");
         }
 
@@ -29,17 +24,19 @@ const Login = () => {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    name: name,
+                    email: email,
                     password: password,
                 }),
             });
 
             if (response.status === 200) {
                 const res_data = await response.json();
+                console.log(res_data)
                 storeTokenInLS(res_data.token);
+                localStorage.setItem(res_data.user)
                 window.alert("Login Successful");
-                connectWallet();
                 navigate('/setevidence');
+                connectWallet();
             } else {
                 return alert(response.json);
             }
@@ -59,9 +56,9 @@ const Login = () => {
                         type="text"
                         name="email"
                         id="email"
-                        placeholder="Name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        placeholder="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         required
                     />
                     <label htmlFor="password" id="icon"><i className="fas fa-unlock-alt"></i></label>

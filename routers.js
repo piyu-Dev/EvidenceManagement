@@ -10,11 +10,12 @@ const authMiddleware = require('./middleware/authmiddleware');
 
 
 router.post('/login', async (req, res) => {
-    const { name, password } = req.body;
-  
+  const { email, password } = req.body;
+
     if (!email || !password) {
-      return res.status(422).json({ error: "Please provide a valid username and password" });
+      return res.status(422).json({ error: "Please provide a valid email and password" });
     }
+
   
     try {
       const user = await User.findOne({ email });
@@ -32,6 +33,7 @@ router.post('/login', async (req, res) => {
         return res.status(200).json({
           message: "Login successful",
           token,
+          user
         });
       } else {
         return res.status(404).json({ error: "Invalid Credentials!!!" });
@@ -159,12 +161,12 @@ router.post('/postComplaint/:add', authMiddleware(), async (req, res) => {
       desc: encryptedDesc
     });
 
-    complaint.save().then(async user => {
+    complaint.save().then(async savedComplaint => {
       user.complaints.push(savedComplaint._id);
       await user.save();
       return res.json({
         message: "Complaint Sent Successfully",
-        data:complaint
+        data: complaint
       });
     })
 

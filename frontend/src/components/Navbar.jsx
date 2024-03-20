@@ -4,8 +4,10 @@ import { useAuth } from '../Store/auth';
 
 
 export default function Navbar() {
-  const { isLoggedIn, LogoutUser, address } = useAuth();
-  const navigate = useNavigate();
+    const { isLoggedIn, LogoutUser } = useAuth();
+    const navigate = useNavigate();
+
+    let address = "0x5769701AEC843972913252966e17864905362bd7"
 
   const data = localStorage.getItem("USER");
   const userData = JSON.parse(data);
@@ -35,7 +37,7 @@ export default function Navbar() {
                                         color: "white"
                                     }}>Home</Link>
                                 </li>
-                                {data && (
+                                {userData && (
                                     <>
                                         <li className="nav-item">
                                             <Link className="nav-link active" aria-current="page" style={{
@@ -54,7 +56,9 @@ export default function Navbar() {
                                 {isLoggedIn ? (
                                     <>
                                         <div className="btn-txt-grp">
-                                            <button className="logout btn btn-outline-danger ms-2 fw-semibold" type="button" style={{ maxHeight: "min-content" }} onClick={() => { LogoutUser(); navigate('/login') }}>{data.slice(0, 3) + "..." + data.slice(-3)}</button>
+
+                                            {/* <button className="logout btn btn-outline-danger ms-2 fw-semibold" type="button" style={{ maxHeight: "min-content" }} onClick={() => { LogoutUser(); navigate('/login') }}>{data.slice(0, 3) + "..." + data.slice(-3)}</button> */}
+                                            <button className="logout btn btn-outline-danger ms-2 fw-semibold" type="button" style={{ maxHeight: "min-content" }} onClick={() => { LogoutUser(); navigate('/login') }}>{userData.name}</button>
                                         </div>
                                     </>
                                 ) : (

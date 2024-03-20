@@ -16,10 +16,10 @@ const userSchema = new Schema({
         unique:true,
         required:true,
     },
-    complaints: {
+    complaints: [{
         type: Schema.Types.ObjectId,
-        ref: 'complaint', 
-    },
+        ref: 'Complaint'
+    }],
     isAdmin:{
         type:Boolean,
         default:false
