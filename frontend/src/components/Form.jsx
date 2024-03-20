@@ -18,8 +18,7 @@ export default function Form() {
             const response = await fetch(`${backend_api}/postComplaint/${address}`, {
                 method: "post",
                 headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer  ${token}`
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
                     address, image, title, desc
@@ -30,7 +29,7 @@ export default function Form() {
             if (response.status === 200) {
                 const res_data = await response.json();
                 console.log("response from server ", res_data);
-                navigate('/students');
+                navigate('/complaints');
                 alert("Complaint Registered Successfull !!!");
             } else {
                 return console.log(response);
@@ -48,16 +47,20 @@ export default function Form() {
                 <h1>Complaint Registration</h1>
                 <form onSubmit={handleSubmit}>
                     <label id="icon" htmlFor="name"><i className="fas fa-user"></i></label>
-                    <input type="text" name="name" id="name" placeholder="address" value={address} onChange={(e) => setAddress(e.target.value)} required />
-                    <label id="icon" htmlFor="name"><i className="fas fa-envelope"></i></label>
-                    <input type='file' name="name" id="name" placeholder="image" value={image}
-                        onChange={(e) => setImage(e.target.value)} required />
-                    <label id="icon" htmlFor="name"><i className="fas fa-id-card"></i></label>
-                    <input type="text" name="name" id="name" placeholder="title" value={title}
+                    <input type="text" name="name" id="address" placeholder="address" value={address} onChange={(e) => setAddress(e.target.value)} required />
+                    <label id="icon" htmlFor="name"><i className="fas fa-file"></i></label>
+                    <input type="text" name="name" id="title" placeholder="title" value={title}
                         onChange={(e) => setTitle(e.target.value)} required />
-                    <label id="icon" htmlFor="name"><i className="fa fa-phone"></i></label>
-                    <input type="text" name="name" id="name" placeholder="description" value={desc}
+                    <label id="icon" htmlFor="name"><i className="fa fa-file"></i></label>
+                    <input type="text" name="name" id="desc" placeholder="description" value={desc}
                         onChange={(e) => setDesc(e.target.value)} required />
+                    {/* <label id="icon" htmlFor="name"><i className="fas fa-image"></i></label>
+                    <input type='file' name="name" id="imageFile" placeholder="image" value={image}
+                        onChange={(e) => setImage(e.target.value)} />
+                    OR<br /> */}
+                    <label id="icon" htmlFor="name"><i className="fas fa-link"></i></label>
+                    <input type='text' name="name" id="imageUrl" placeholder="image link" value={image}
+                        onChange={(e) => setImage(e.target.value)} />
                     <hr />
                     <div className="button-block">
                         <button type="submit" href="/">Submit Complaint</button>
@@ -107,7 +110,7 @@ export default function Form() {
       border-radius: 20px; 
       border: solid 1px #ccc;
       box-shadow: 1px 2px 5px rgba(0,0,0,.31); 
-      background: #134679; 
+      background: rgb(0,0,0); 
       }
       form {
       margin: 0 30px;
@@ -131,6 +134,8 @@ export default function Form() {
       }
       input[type=file]{
         margin-bottom:0px;
+        position:relative;
+        bottom:5px;
         padding:none;
         text-align:center;
       }
@@ -141,7 +146,7 @@ export default function Form() {
       display: inline-block;
       padding: 9.3px 15px;
       box-shadow: 1px 2px 5px rgba(0,0,0,.09); 
-      background: #1c87c9;
+      background: rgb(90,90,90);
       color: #fff;
       text-align: center;
       }
@@ -155,13 +160,13 @@ export default function Form() {
       margin: 10px auto;
       border-radius: 5px; 
       border: none;
-      background: #1c87c9; 
+      background: rgb(90,90,90); 
       font-size: 14px;
       font-weight: 600;
       color: #fff;
       }
       button:hover {
-      background: #26a9e0;
+      background: rgb(100,100,100);
       }
       .fa-id-card,.fa-graduation-cap,.fa-laptop-code,.fa-laptop{
         width:15px;

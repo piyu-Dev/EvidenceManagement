@@ -3,15 +3,15 @@ import Navbar from './Navbar'
 import { useAuth } from './store/auth'
 import { useNavigate, Link } from 'react-router-dom';
 
-export default function Login() {
+const Login = () => {
     const { storeTokenInLS, backend_api } = useAuth();
     const navigate = useNavigate();
-    const [mail, setMail] = useState('');
+    const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!password || !mail) {
+        if (!password || !name) {
             return alert("All Fields are Required!!!");
         }
 
@@ -22,7 +22,7 @@ export default function Login() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    email: mail,
+                    name: name,
                     password: password,
                 }),
             });
@@ -30,11 +30,10 @@ export default function Login() {
             if (response.status === 200) {
                 const res_data = await response.json();
                 storeTokenInLS(res_data.token);
-                localStorage.setItem("USER", JSON.stringify(res_data.user));
                 window.alert("Login Successful");
                 navigate('/');
             } else {
-                return alert("Invalid Credentials!!!");
+                return alert(response.json);
             }
         } catch (error) {
             console.error(error);
@@ -47,14 +46,14 @@ export default function Login() {
             <div className="main-block">
                 <h1>Login</h1>
                 <form id="registerForm" onSubmit={handleSubmit}>
-                    <label htmlFor="email" id="icon"><i className="fas fa-envelope"></i></label>
+                    <label htmlFor="email" id="icon"><i className="fas fa-user"></i></label>
                     <input
                         type="text"
                         name="email"
                         id="email"
-                        placeholder="Email"
-                        value={mail}
-                        onChange={(e) => setMail(e.target.value)}
+                        placeholder="Name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
                         required
                     />
                     <label htmlFor="password" id="icon"><i className="fas fa-unlock-alt"></i></label>
@@ -97,7 +96,7 @@ export default function Login() {
       outline: none;
       font-family: Roboto, Arial, sans-serif;
       font-size: 16px;
-      color: #666;
+      color: black;
       }
       a:hover , a{
         color:white;
@@ -125,7 +124,7 @@ export default function Login() {
       border-radius: 20px; 
       border: solid 1px #ccc;
       box-shadow: 1px 2px 5px rgba(0,0,0,.31); 
-      background: #134679; 
+      background: black; 
       }
       form {
       margin: 0 30px;
@@ -151,7 +150,7 @@ export default function Login() {
       display: inline-block;
       padding: 9.3px 15px;
       box-shadow: 1px 2px 5px rgba(0,0,0,.09); 
-      background: #1c87c9;
+      background: rgb(90,90,90);
       color: #fff;
       text-align: center;
       }
@@ -165,13 +164,13 @@ export default function Login() {
       margin: 10px auto;
       border-radius: 5px; 
       border: none;
-      background: #1c87c9; 
+      background: rgb(90,90,90);
       font-size: 14px;
       font-weight: 600;
       color: #fff;
       }
       button:hover {
-      background: #26a9e0;
+      background: rgb(100,100,100);
       }
       .fa-id-card,.fa-graduation-cap,.fa-phone,.fa-laptop{
         width:15px;
@@ -192,3 +191,5 @@ export default function Login() {
         </>
     );
 }
+
+export default Login;

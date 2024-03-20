@@ -5,6 +5,7 @@ import Home from './components/Home';
 import Login from './components/Login';
 import Form from './components/Form';
 import Register from './components/Register';
+import Complaints from './components/Complaints';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route exact path='/login' element={<Login />} />
         <Route exact path='/register' element={<Register />} />
         <Route exact path='/setevidence' element={<Form />} />
+        <Route exact path='/complaints' element={<Complaints />} />
       </Routes>
    </>
   );

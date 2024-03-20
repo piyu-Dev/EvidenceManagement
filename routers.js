@@ -6,9 +6,10 @@ const jwt = require('jsonwebtoken');
 const Complaint = require('./models/Complaint')
 const authmiddleware = require('./middleware/authmiddleware')
 const crypto = require('crypto');
+const authMiddleware = require('./middleware/authmiddleware');
 
 
-router.post( '/login',async (req, res) => {
+router.post('/login', async (req, res) => {
     const { name, password } = req.body;
   
     if (!name || !password) {
@@ -136,7 +137,7 @@ function decrypt(encryptedData, iv, key) {
 }
 
 
-router.post('/postComplaint/:add', async (req, res) => {
+router.post('/postComplaint/:add', authMiddleware(), async (req, res) => {
   const {add} = req.params;
   const { address, image, title, desc } = req.body;
   if (!address || !title || !desc) {
@@ -149,6 +150,7 @@ router.post('/postComplaint/:add', async (req, res) => {
     const encryptedDesc = encrypt(desc);
     const encryptedAdd = encrypt(address);
     const encryptedImage = encrypt(image);
+    const user = req.user;
     const complaint = new Complaint({
       walletAdd:add,
       address:encryptedAdd,
@@ -158,6 +160,8 @@ router.post('/postComplaint/:add', async (req, res) => {
     });
 
     complaint.save().then(async user => {
+      user.complaints.push(savedComplaint._id);
+      await user.save();
       return res.json({
         message: "Complaint Sent Successfully",
         data:complaint
@@ -175,7 +179,7 @@ router.post('/postComplaint/:add', async (req, res) => {
 });
 
 
-router.get('/complaint/:id', async (req, res) => {
+router.get('/complaint/:id', authMiddleware(), async (req, res) => {
   const complaintId = req.params.id;
 
   try {

@@ -5,6 +5,7 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
 
     const [token, setToken] = useState(localStorage.getItem("token"));
+    const backend_api = "http://localhost:8000"
     // const [currentUser,setcurrentUser] = useState('');
     const isLoggedIn = !!token;
     
@@ -69,7 +70,7 @@ export const AuthProvider = ({ children }) => {
 
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, storeTokenInLS, LogoutUser, token}}>
+        <AuthContext.Provider value={{ isLoggedIn, storeTokenInLS, LogoutUser, token , backend_api}}>
             {children}
         </AuthContext.Provider>
     );

@@ -32,8 +32,7 @@ const Register = () => {
             const response = await fetch(`${backend_api}/register`, {
                 method: "post",
                 headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer  ${token}`
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
                     name,
@@ -47,7 +46,7 @@ const Register = () => {
                 const res_data = await response.json();
                 console.log("response from server ", res_data);
                 storeTokenInLS(res_data.token);
-                navigate('/students');
+                navigate('/login');
                 alert("Registration Successfull !!!");
             } else {
                 return console.log(response);
@@ -132,7 +131,7 @@ const Register = () => {
       border-radius: 20px; 
       border: solid 1px #ccc;
       box-shadow: 1px 2px 5px rgba(0,0,0,.31); 
-      background: #134679; 
+      background: rgb(0,0,0);
       }
       form {
       margin: 0 30px;
@@ -161,7 +160,7 @@ const Register = () => {
       display: inline-block;
       padding: 9.3px 15px;
       box-shadow: 1px 2px 5px rgba(0,0,0,.09); 
-      background: #1c87c9;
+      background: rgb(90,90,90);
       color: #fff;
       text-align: center;
       }
@@ -175,13 +174,13 @@ const Register = () => {
       margin: 10px auto;
       border-radius: 5px; 
       border: none;
-      background: #1c87c9; 
+      background: rgb(90,90,90);
       font-size: 14px;
       font-weight: 600;
       color: #fff;
       }
       button:hover {
-      background: #26a9e0;
+      background: rgb(100,100,100);
       }
       .fa-id-card,.fa-graduation-cap,.fa-laptop-code,.fa-laptop{
         width:15px;

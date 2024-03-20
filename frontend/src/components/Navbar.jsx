@@ -2,43 +2,61 @@ import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from './store/auth';
 
-export default function Navbar({ user }) {
+export default function Navbar() {
     const { isLoggedIn, LogoutUser } = useAuth();
     const navigate = useNavigate();
 
-    const data = localStorage.getItem("USER");
-    const userData = JSON.parse(data);
+    const data = localStorage.getItem("address");
 
     useEffect(() => {
-        console.log(userData);
+        console.log(data);
     }, []);
 
     return (
         <>
-            <div className="nav-cont">
+            <div className="nav-container">
                 <nav style={{ maxWidth: "100%" }} className="navbar navbar-expand-lg">
-                    <div className="container-fluid">
-                        <Link className="navbar-brand fs-4 fw-bolder" style={{ color: "purple" }} to='/'>
-                            <h3 className='logo'>Logo</h3>
+                    <div className="container-fluid" >
+                        <Link className="logo navbar-brand fs-4 fw-bolder" style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            textAlign: "center"
+                        }} to='/'>
+                            <h3 style={{
+                                color: "white"
+                            }}>Complaint<i class="fa fa-link"></i>Chain</h3>
                         </Link>
-                        <button className="navbar-toggler" style={{ "border": "2px solid black" }} type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <button className="navbar-toggler" style={{ "border": "2px solid white" }} type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span className="navbar-toggler-icon "></span>
                         </button>
                         <div className="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul className="navbar-nav ms-auto mb-lg-0 fs-5 fw-normal">
                                 <li className="nav-item">
-                                    <Link className="nav-link active" aria-current="page" to='/'>Home</Link>
+                                    <Link className="nav-link active" aria-current="page" to='/' style={{
+                                        color: "white"
+                                    }}>Home</Link>
                                 </li>
-                                {userData && (
-                                    <></>
+                                {data && (
+                                    <>
+                                        <li className="nav-item">
+                                            <Link className="nav-link active" aria-current="page" style={{
+                                                color: "white"
+                                            }} to='/setevidence'>New Complaint</Link>
+                                        </li>
+                                        <li className="nav-item">
+                                            <Link className="nav-link active" aria-current="page" style={{
+                                                color: "white"
+                                            }} to='/complaints'>Complaints</Link>
+                                        </li>
+                                    </>
                                 )}
                             </ul>
                             <form className="d-flex fs-6 fw-medium ms-auto navbar-nav">
                                 {isLoggedIn ? (
                                     <>
                                         <div className="btn-txt-grp">
-                                            <p className='user-name'>{userData.fullname}</p>
-                                            <button className="btn btn-outline-danger ms-2 fw-semibold" type="button" style={{ maxHeight: "min-content" }} onClick={() => { LogoutUser(); navigate('/login') }}>Logout</button>
+                                            <button className="logout btn btn-outline-danger ms-2 fw-semibold" type="button" style={{ maxHeight: "min-content" }} onClick={() => { LogoutUser(); navigate('/login') }}>{data.slice(0, 3) + "..." + data.slice(-3)}</button>
                                         </div>
                                     </>
                                 ) : (
@@ -58,9 +76,14 @@ export default function Navbar({ user }) {
                   padding: 0;
                   box-sizing: border-box;
                   font-family: 'Poppins', sans-serif;
+                  color:white;
                 }
                 a:hover, a {
                   text-decoration: none;
+                }
+                .logout{
+                    border-color:white;
+                    color:white;
                 }
                 body {
                   width: 100%;
@@ -72,7 +95,7 @@ export default function Navbar({ user }) {
                   cursor: auto !important;
                   font-size: 18px !important;
                   font-weight: 600 !important;
-                  color: #1d46ff !important;
+                //   color: #1d46ff !important;
                 }
                 nav {
                   margin: 10px 10px 0 10px;
@@ -81,8 +104,9 @@ export default function Navbar({ user }) {
                   display: flex;
                   justify-content: center;
                   align-items: center;
+                  color:white !important;
                 }
-                .nav-cont {
+                .nav-container {
                   width: max-content;
                   min-width: 95%;
                   background: rgba(255, 255, 255, 0.26);
