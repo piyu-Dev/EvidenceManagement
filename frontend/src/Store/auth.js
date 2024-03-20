@@ -27,8 +27,8 @@ export const AuthProvider = ({ children }) => {
     }
 
     const connectWallet = async () => {
-        const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; // Ganache
-        const contractABI = abi.abi;
+        const contractAddress = "0xb9d1D372C3f844FA3cCE155C1ffa2A73b536E2F2"; // Ganache
+        const contractABI = abi;
         try {
             if (window.ethereum) {
                 const web3 = new Web3(window.ethereum);

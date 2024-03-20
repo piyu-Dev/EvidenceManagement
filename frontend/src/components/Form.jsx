@@ -3,6 +3,7 @@ import Navbar from './Navbar'
 
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../Store/auth';
+import Web3 from 'web3';
 
 export default function Form() {
     const { token, address, state } = useAuth();
@@ -13,7 +14,7 @@ export default function Form() {
     const [image, setImage] = useState('');
     const [title, setTitle] = useState('');
     const [desc, setDesc] = useState('');
-  
+
 
 
     const handleSubmit = async (e) => {
@@ -51,9 +52,12 @@ export default function Form() {
 
             if (response.status === 200) {
                 const res_data = await response.json();
-                // console.log("COON:",contract)
-                const transaction = await contract.registerComplaint(res_data.data._id);
-                await transaction.wait();
+
+                const id = res_data.data._id
+              
+                console.log(contract);
+                const transaction = await contract.methods.registerComplaint(id).send({ from: address });
+
                 alert("Complaint Registered Successfully!");
             } else {
                 console.log(await response.text());
