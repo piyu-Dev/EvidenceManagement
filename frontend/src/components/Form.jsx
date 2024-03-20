@@ -14,6 +14,7 @@ export default function Form() {
     const [image, setImage] = useState('');
     const [title, setTitle] = useState('');
     const [desc, setDesc] = useState('');
+    const [detail, setDetail] = useState('');
 
 
 
@@ -46,7 +47,8 @@ export default function Form() {
                     address: laddress,
                     image: ImgHash,
                     title,
-                    desc
+                    desc,
+                    detail
                 }),
             });
 
@@ -85,6 +87,10 @@ export default function Form() {
                     <label id="icon" htmlFor="name"><i className="fa fa-file"></i></label>
                     <input type="text" name="name" id="desc" placeholder="description" value={desc}
                         onChange={(e) => setDesc(e.target.value)} required />
+                    <label id="icon" htmlFor="name"><i className="fa fa-file"></i></label>
+                    <textarea type="text" name="name" id="desc" placeholder="detailed description" value={detail}
+                        onChange={(e) => setDetail(e.target.value)} required />
+                    <label id="icon" htmlFor="name"><i className="fas fa-link"></i></label>
                         <input
                         type='file'
                         name="file"
@@ -161,7 +167,7 @@ export default function Form() {
       margin: 0;
       border-radius: 5px 0 0 5px;
       }
-      input[type=text], input[type=password] , input[type=file] {
+      input[type=text], input[type=password] , input[type=file] , textarea {
       width: calc(100% - 57px);
       height: 42px;
       margin: 13px 0 0 -5px;
@@ -171,8 +177,13 @@ export default function Form() {
       box-shadow: 1px 2px 5px rgba(0,0,0,.09); 
       background: #fff; 
       }
+      textarea{
+        margin-top:none !important;
+        position:relative;
+        top:16px;
+        color:black;
+      }
       input[type=file]{
-        margin-bottom:0px;
         position:relative;
         bottom:5px;
         padding:none;

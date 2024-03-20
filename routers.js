@@ -141,7 +141,7 @@ function decrypt(encryptedData, iv, key) {
 
 router.post('/postComplaint/:add', authMiddleware(), async (req, res) => {
   const {add} = req.params;
-  const { address, image, title, desc } = req.body;
+  const { address, image, title, desc , detail } = req.body;
   if (!address || !title || !desc) {
     console.log('Please add all the fields');
     return res.status(422).json({ error: "Please add all the fields" });
@@ -152,13 +152,15 @@ router.post('/postComplaint/:add', authMiddleware(), async (req, res) => {
     const encryptedDesc = encrypt(desc);
     const encryptedAdd = encrypt(address);
     const encryptedImage = encrypt(image);
+    const encryptedDetail = encrypt(detail);
     const user = req.user;
     const complaint = new Complaint({
       walletAdd:add,
       address:encryptedAdd,
       image:encryptedImage,
       title: encryptedTitle,
-      desc: encryptedDesc
+      desc: encryptedDesc,
+      detail: encryptedDetail
     });
 
     complaint.save().then(async savedComplaint => {
