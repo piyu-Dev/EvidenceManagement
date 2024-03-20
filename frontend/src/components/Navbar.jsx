@@ -58,7 +58,7 @@ export default function Navbar() {
                                         <div className="btn-txt-grp">
 
                                             {/* <button className="logout btn btn-outline-danger ms-2 fw-semibold" type="button" style={{ maxHeight: "min-content" }} onClick={() => { LogoutUser(); navigate('/login') }}>{data.slice(0, 3) + "..." + data.slice(-3)}</button> */}
-                                            <button className="logout btn btn-outline-danger ms-2 fw-semibold" type="button" style={{ maxHeight: "min-content" }} onClick={() => { LogoutUser(); navigate('/login') }}>{userData.name}</button>
+                                            <button className="logout btn btn-outline-danger ms-2 fw-semibold" type="button" style={{ maxHeight: "min-content" }} onClick={() => { LogoutUser(); navigate('/login') }}>{address ? address.slice(0, 4) + "..." + address.slice(38) : ""}</button>
                                         </div>
                                     </>
                                 ) : (

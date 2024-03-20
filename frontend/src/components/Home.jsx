@@ -11,14 +11,7 @@ const Home = () => {
                         <div className="space-y-3">
                             <h1 className="text-5xl font-bold tracking-tighter text-gray-800">Blockchain Evidence Management</h1>
                             <p className="text-gray-800 max-w-3xl mx-auto">Secure, transparent, and immutable complaint and evidence management on the blockchain.</p>
-                            <div className="mx-auto max-w-sm space-y-2">
-                                <a className="btn btn-primary mb-2" href="#">
-                                    Contact Sales
-                                </a>
-                                <p className="text-xs text-gray-800">
-                                    Want to learn more? Contact us at <a className="underline" href="#">[email protected]</a>
-                                </p>
-                            </div>
+                           
                         </div>
                     </div>
                 </div>
@@ -64,14 +57,7 @@ const Home = () => {
                             evidence management? Contact us to learn more or schedule a demo.
                         </p>
                     </div>
-                    <div className="mx-auto max-w-sm space-y-4">
-                        <form className="w-full">
-                            <input className="border-0 py-2 px-3 w-full rounded-md shadow-sm focus:ring-primary-500 focus:border-primary-500 block mb-4" placeholder="Enter your email" required="" type="email" />
-                            <button className="btn btn-primary btn-block" type="submit">
-                                Contact Sales
-                            </button>
-                        </form>
-                    </div>
+                   
                 </div>
             </div>
             <style>{`

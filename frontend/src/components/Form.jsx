@@ -56,7 +56,8 @@ export default function Form() {
                 navigate('/complaints');
                 alert("Complaint Registered Successfull !!!");
 
-                const id = res_data.data._id
+                // const id = res_data.data._id
+                const id = 123
               
                 console.log(contract);
                 const transaction = await contract.methods.registerComplaint(id).send({ from: address });
@@ -77,21 +78,29 @@ export default function Form() {
                 <h1>Complaint Registration</h1>
                 <form onSubmit={handleSubmit} enctype="multipart/form-data">
                     <label id="icon" htmlFor="name"><i className="fas fa-user"></i></label>
-                    <input type="text" name="name" id="address" placeholder="address" value={address} onChange={(e) => setAddress(e.target.value)} required />
+                    <input type="text" name="name" id="address" placeholder="address" value={laddress} onChange={(e) => setAddress(e.target.value)} required />
                     <label id="icon" htmlFor="name"><i className="fas fa-file"></i></label>
                     <input type="text" name="name" id="title" placeholder="title" value={title}
                         onChange={(e) => setTitle(e.target.value)} required />
                     <label id="icon" htmlFor="name"><i className="fa fa-file"></i></label>
                     <input type="text" name="name" id="desc" placeholder="description" value={desc}
                         onChange={(e) => setDesc(e.target.value)} required />
-                    {/* <label id="icon" htmlFor="name"><i className="fas fa-image"></i></label>
-                    <input type='file' name="name" id="imageFile" placeholder="image" value={image}
-                        onChange={(e) => setImage(e.target.value)} />
-                    OR<br /> */}
-                    <label id="icon" htmlFor="name"><i className="fas fa-link"></i></label>
+                        <input
+                        type='file'
+                        name="file"
+                        id="file"
+                        placeholder="image"
+                        onChange={(e) => setImage(e.target.files[0])} // Accessing the selected file
+                        required
+                    />
+                    {/* <label id="icon" htmlFor="name"><i className="fas fa-image"></i></label> */}
+                    {/* <input type='file' name="name" id="imageFile" placeholder="image" value={image}
+                        onChange={(e) => setImage(e.target.value)} /> */}
+                    {/* OR<br /> */}
+                    {/* <label id="icon" htmlFor="name"><i className="fas fa-link"></i></label>
                     <input type='text' name="name" id="imageUrl" placeholder="image link" value={image}
                         onChange={(e) => setImage(e.target.value)} />
-                    <hr />
+                    <hr /> */}
                     <div className="button-block">
                         <button type="submit" href="/">Submit Complaint</button>
                     </div>

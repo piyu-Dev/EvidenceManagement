@@ -33,10 +33,10 @@ const Login = () => {
                 const res_data = await response.json();
                 console.log(res_data)
                 storeTokenInLS(res_data.token);
-                localStorage.setItem(res_data.user)
-                window.alert("Login Successful");
+                // localStorage.setItem(res_data.user)
                 navigate('/setevidence');
                 connectWallet();
+                window.alert("Login Successful");
             } else {
                 return alert(response.json);
             }

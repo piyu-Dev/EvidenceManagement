@@ -35,7 +35,7 @@ const Complaints = () => {
                                     <Card.Title>{complaint.title}</Card.Title>
                                     <Card.Text className='txt'>{complaint.address.slice(0, 3) + "..." + complaint.address.slice(-3)}</Card.Text>
                                     <Card.Text className='txt'>{complaint.desc}</Card.Text>
-                                    <Card.Img variant="top" src={complaint.image} alt="Complaint" />
+                                    <Card.Img variant="top" src={`https://gateway.pinata.cloud/ipfs/${complaint.image}`} alt="Complaint" />
                                 </Card.Body>
                             </Card>
                         </Col>
