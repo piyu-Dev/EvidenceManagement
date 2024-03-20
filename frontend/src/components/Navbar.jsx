@@ -1,16 +1,14 @@
 import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from './store/auth';
+import { useAuth } from '../Store/auth';
+
 
 export default function Navbar() {
-    const { isLoggedIn, LogoutUser } = useAuth();
-    const navigate = useNavigate();
+  const { isLoggedIn, LogoutUser, address } = useAuth();
+  const navigate = useNavigate();
 
-    const data = localStorage.getItem("address");
-
-    useEffect(() => {
-        console.log(data);
-    }, []);
+  const data = localStorage.getItem("USER");
+  const userData = JSON.parse(data);
 
     return (
         <>
@@ -160,7 +158,7 @@ export default function Navbar() {
                   }
                 }
               `}
-            </style>
-        </>
-    );
+      </style>
+    </>
+  );
 }

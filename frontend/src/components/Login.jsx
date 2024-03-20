@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import Navbar from './Navbar'
-import { useAuth } from './store/auth'
+import { useAuth } from '../Store/auth';
+
 import { useNavigate, Link } from 'react-router-dom';
 
 const Login = () => {
-    const { storeTokenInLS, backend_api } = useAuth();
+    const { storeTokenInLS, backend_api, connectWallet } = useAuth();
     const navigate = useNavigate();
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
+
+
+
+
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -16,7 +23,7 @@ const Login = () => {
         }
 
         try {
-            const response = await fetch(`${backend_api}/login`, {
+            const response = await fetch(`http://localhost:8000/login`, {
                 method: "post",
                 headers: {
                     "Content-Type": "application/json",
@@ -31,7 +38,8 @@ const Login = () => {
                 const res_data = await response.json();
                 storeTokenInLS(res_data.token);
                 window.alert("Login Successful");
-                navigate('/');
+                connectWallet();
+                navigate('/setevidence');
             } else {
                 return alert(response.json);
             }

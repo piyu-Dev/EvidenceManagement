@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import abi from '../components/ABI.json';
 import Web3 from 'web3';
+
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -26,12 +27,13 @@ export const AuthProvider = ({ children }) => {
     }
 
     const connectWallet = async () => {
-        const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; // Ganache
-        const contractABI = abi.abi;
+        const contractAddress = "0xb9d1D372C3f844FA3cCE155C1ffa2A73b536E2F2"; // Ganache
+        const contractABI = abi;
         try {
             if (window.ethereum) {
                 const web3 = new Web3(window.ethereum);
-                await window.ethereum.enable();
+                // Prompt the user to connect their wallet
+                await window.ethereum.request({ method: 'eth_requestAccounts' });
                 const accounts = await web3.eth.getAccounts();
                 const contract = new web3.eth.Contract(contractABI, contractAddress);
                 setAddress(accounts[0]);
@@ -45,6 +47,7 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+   
     const userAuthentication = async () => {
         let response;
         try {
@@ -61,6 +64,7 @@ export const AuthProvider = ({ children }) => {
 
             const data = await response.json();
 
+            console.log("FROM AUTH: ",data)
             if (data.msg) {
                 localStorage.setItem("USER", JSON.stringify(data.msg));
             } else {
@@ -71,18 +75,12 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    useEffect(() => {
-        const authenticateUser = async () => {
-            if (token) {
-                await userAuthentication();
-            }
-        };
-
-        authenticateUser();
-    }, [token, userAuthentication]);
+    useEffect(()=>{
+        userAuthentication();
+    },[])
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, storeTokenInLS, LogoutUser, token, address, state, connectWallet }}>
+        <AuthContext.Provider value={{ isLoggedIn, storeTokenInLS,userAuthentication, LogoutUser, token, address, state, connectWallet }}>
             {children}
         </AuthContext.Provider>
     );

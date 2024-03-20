@@ -3,9 +3,9 @@ pragma solidity ^0.8.0;
 
 contract ComplaintManagement {
     address public owner;
-    mapping(uint256 => Complaint) public complaints;
-    uint256[] public unresolvedComplaints;
-    uint256[] public resolvedComplaints;
+    mapping(string => Complaint) public complaints;
+    string[] public unresolvedComplaints;
+    string[] public resolvedComplaints;
 
     struct Complaint {
         address user;
@@ -13,10 +13,10 @@ contract ComplaintManagement {
     }
 
     event ComplaintRegistered(
-        uint256 indexed complaintId,
+        string indexed complaintId,
         address indexed user
     );
-    event ComplaintResolved(uint256 indexed complaintId);
+    event ComplaintResolved(string indexed complaintId);
 
     constructor() {
         owner = msg.sender;
@@ -27,56 +27,51 @@ contract ComplaintManagement {
         _;
     }
 
-    function registerComplaint(uint256 complaintId) external {
+    function registerComplaint(string memory complaintId) external {
         complaints[complaintId] = Complaint(msg.sender, false);
         unresolvedComplaints.push(complaintId);
         emit ComplaintRegistered(complaintId, msg.sender);
     }
 
-
-    function getAllComplaints() external view returns (uint256[] memory) {
-    uint256[] memory allComplaints = new uint256[](unresolvedComplaints.length + resolvedComplaints.length);
+    function getAllComplaints() external view returns (string[] memory) {
+        string[] memory allComplaints = new string[](unresolvedComplaints.length + resolvedComplaints.length);
     
-    for (uint256 i = 0; i < unresolvedComplaints.length; i++) {
-        allComplaints[i] = unresolvedComplaints[i];
-    }
-
-    for (uint256 i = 0; i < resolvedComplaints.length; i++) {
-        allComplaints[unresolvedComplaints.length + i] = resolvedComplaints[i];
-    }
-
-    return allComplaints;
-}
-
-
-
-   function resolveComplaint(uint256 complaintId) external payable{
-    address user = complaints[complaintId].user;
-
-    require(msg.sender == user, "You are not authorized to resolve this complaint");
-    require(user != address(0), "Complaint does not exist");
-    require(!complaints[complaintId].resolved, "Complaint is already resolved");
-
-    complaints[complaintId].resolved = true;
-
-    for (uint256 i = 0; i < unresolvedComplaints.length; i++) {
-        if (unresolvedComplaints[i] == complaintId) {
-            unresolvedComplaints[i] = unresolvedComplaints[unresolvedComplaints.length - 1];
-            unresolvedComplaints.pop();
-            break;
+        for (uint256 i = 0; i < unresolvedComplaints.length; i++) {
+            allComplaints[i] = unresolvedComplaints[i];
         }
+
+        for (uint256 i = 0; i < resolvedComplaints.length; i++) {
+            allComplaints[unresolvedComplaints.length + i] = resolvedComplaints[i];
+        }
+
+        return allComplaints;
     }
-    resolvedComplaints.push(complaintId);
-    emit ComplaintResolved(complaintId);
-}
 
+    function resolveComplaint(string memory complaintId) external payable {
+        address user = complaints[complaintId].user;
 
+        require(msg.sender == user, "You are not authorized to resolve this complaint");
+        require(user != address(0), "Complaint does not exist");
+        require(!complaints[complaintId].resolved, "Complaint is already resolved");
 
-    function getUnresolvedComplaints() external view returns (uint256[] memory) {
+        complaints[complaintId].resolved = true;
+
+        for (uint256 i = 0; i < unresolvedComplaints.length; i++) {
+            if (keccak256(abi.encodePacked(unresolvedComplaints[i])) == keccak256(abi.encodePacked(complaintId))) {
+                unresolvedComplaints[i] = unresolvedComplaints[unresolvedComplaints.length - 1];
+                unresolvedComplaints.pop();
+                break;
+            }
+        }
+        resolvedComplaints.push(complaintId);
+        emit ComplaintResolved(complaintId);
+    }
+
+    function getUnresolvedComplaints() external view returns (string[] memory) {
         return unresolvedComplaints;
     }
 
-    function getResolvedComplaints() external view returns (uint256[] memory) {
+    function getResolvedComplaints() external view returns (string[] memory) {
         return resolvedComplaints;
     }
 }

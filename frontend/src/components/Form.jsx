@@ -1,42 +1,72 @@
 import React, { useRef, useState } from 'react'
 import Navbar from './Navbar'
-import { useAuth } from './store/auth'
+
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../Store/auth';
+import Web3 from 'web3';
 
 export default function Form() {
-    const { backend_api, token } = useAuth();
+    const { token, address, state } = useAuth();
+    const { contract } = state;
 
     const navigate = useNavigate();
-    const [address, setAddress] = useState('');
+    const [laddress, setAddress] = useState('');
     const [image, setImage] = useState('');
     const [title, setTitle] = useState('');
     const [desc, setDesc] = useState('');
 
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`${backend_api}/postComplaint/${address}`, {
-                method: "post",
+            const formData = new FormData();
+            formData.append('file', image);
+
+            const resFile = await fetch("https://api.pinata.cloud/pinning/pinFileToIPFS", {
+                method: "POST",
+                body: formData,
                 headers: {
-                    "Content-Type": "application/json"
+                    'pinata_api_key': "2116f8d5d3eda0bd29e1",
+                    'pinata_secret_api_key': "1858c1b96394993389570925ad7bb82be08f04f21d0d31a8520cf9738200b8f7",
+                },
+            });
+
+            const data = await resFile.json();
+            const ImgHash = data.IpfsHash;
+            console.log(ImgHash);
+
+            const response = await fetch(`http://localhost:8000/postComplaint/${address}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
                 },
                 body: JSON.stringify({
-                    address, image, title, desc
+                    address: laddress,
+                    image: ImgHash,
+                    title,
+                    desc
                 }),
             });
-            console.log(token);
 
             if (response.status === 200) {
                 const res_data = await response.json();
                 console.log("response from server ", res_data);
                 navigate('/complaints');
                 alert("Complaint Registered Successfull !!!");
+
+                const id = res_data.data._id
+              
+                console.log(contract);
+                const transaction = await contract.methods.registerComplaint(id).send({ from: address });
+
+                alert("Complaint Registered Successfully!");
             } else {
-                return console.log(response);
+                console.log(await response.text());
             }
-        }
-        catch (error) {
-            console.log(error);
+        } catch (error) {
+            console.error("Error:", error);
         }
     };
 
@@ -45,7 +75,7 @@ export default function Form() {
             <Navbar />
             <div className="main-block">
                 <h1>Complaint Registration</h1>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} enctype="multipart/form-data">
                     <label id="icon" htmlFor="name"><i className="fas fa-user"></i></label>
                     <input type="text" name="name" id="address" placeholder="address" value={address} onChange={(e) => setAddress(e.target.value)} required />
                     <label id="icon" htmlFor="name"><i className="fas fa-file"></i></label>
