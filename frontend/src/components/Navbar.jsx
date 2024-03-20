@@ -37,8 +37,7 @@ export default function Navbar() {
                                         color: "white"
                                     }}>Home</Link>
                                 </li>
-                                {userData && (
-                                    <>
+                                
                                         <li className="nav-item">
                                             <Link className="nav-link active" aria-current="page" style={{
                                                 color: "white"
@@ -49,8 +48,7 @@ export default function Navbar() {
                                                 color: "white"
                                             }} to='/complaints'>Complaints</Link>
                                         </li>
-                                    </>
-                                )}
+                                 
                             </ul>
                             <form className="d-flex fs-6 fw-medium ms-auto navbar-nav">
                                 {isLoggedIn ? (
